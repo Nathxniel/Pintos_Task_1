@@ -1,0 +1,143 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage [utf8]{inputenc}
+\usepackage{xspace} %better spacing option with :
+\usepackage{amsmath,amsthm,amssymb} %package matematici
+\usepackage{amsfonts} % altri simbolo matematici stronzi
+\usepackage{latexsym} %altri simboli chissa quali
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{multicol}
+\usepackage[pdftex]{color}
+\usepackage{url}
+\usepackage{subfigure}
+\usepackage[final]{pdfpages}
+\newcommand{\fncyblank }{\fancyhf {}}
+
+\addtolength{\hoffset}{-1,5cm}
+\addtolength{\textwidth}{3cm}
+
+\definecolor{Gray}{cmyk}{0,0,0,0.50}
+
+\usepackage{sectsty}
+\sectionfont{\large}
+\subsectionfont{\normalsize}
+
+\begin{document}
+
+\small
+
+\begin{center}
+\begin{LARGE}
+Pintos Task 0
+\end{LARGE}
+\end{center}
+
+\begin{center}
+211 Operating Systems \\
+Department of Computing \\
+Imperial College
+\end{center}
+
+This task is logically divided into two parts:
+\begin{itemize}
+\item Part A: Questions 1-10 test your understanding of Pintos basic concepts. 
+      To answer these questions you are invited to carefully read the Pintos manual. 
+      For some questions, examining the Pintos code-base might be useful. 
+      The maximum possible mark in Part A is 20.
+      
+\item Part B: tests your comprehension and ability of writing Pintos code. 
+      To successfully accomplish this part of the task, you first have to download, compile, install and run Pintos, and then develop a simple functionality. 
+      The maximum possible mark in Part B is 30. 
+\end{itemize}
+
+\section*{Part A - Codebase Preview (20 marks)}
+In this part you are required to answer 10 short questions that test your understanding of the provided Pintos code-base.
+
+\subsubsection*{Question 1 - (1 mark)}
+Which Git command should you run to retrieve a copy of your individual repository for Pintos Task 0 in your local directory?\\
+(\textit{Hint: be specific to this task.})
+
+\subsubsection*{Question 2 - (1 mark)}
+Why is using the {\tt strcpy()} function to copy strings usually a bad idea? \\
+(\textit{Hint: be sure to clearly identify the problem.})
+
+\subsubsection*{Question 3 - (1 mark)}
+If test \texttt{src/tests/devices/alarm-multiple} fails, where would you find its output and result logs? 
+Provide both paths and file names.\\
+(\textit{Hint: you might want to run this test and find out.}) 
+
+\subsubsection*{Question 4 - (2 marks)}
+In Pintos, a thread is characterized by a struct and an execution stack. 
+What are the limitations on the size of these data structures? 
+Explain how this relates to stack overflow and how Pintos identifies if a stack overflow has occurred.
+
+\subsubsection*{Question 5 - (6 marks)}
+Explain how thread scheduling in Pintos currently works in roughly 300 words. 
+Include the chain of execution of function calls. \\
+(\textit{Hint: we expect you to at least mention which functions participate in a context switch, how they interact, how and when the thread state is modified and the role of interrupts.)}
+
+\subsubsection*{Question 6 - (1 mark)}
+In Pintos, what is the default length (in ticks \emph{and} in seconds) of a scheduler time slice? \\
+(\textit{Hint: read the task 0 documentation carefully.})
+
+\subsubsection*{Question 7 - (2 marks)}
+In Pintos, how would you print an unsigned 64 bit \texttt{int}? 
+(Consider that you are working with C99). 
+Don't forget to state any inclusions needed by your code.
+
+\subsubsection*{Question 8 - (2 marks)}
+Explain the property of {\bf reproducibility} and how the lack of reproducibility will affect debugging.
+
+\subsubsection*{Question 9 - (2 marks)}
+In Pintos, locks are implemented on top of semaphores.
+Describe how the functions of a lock are related to those of a semaphore.
+What extra property do locks have that semaphores do not?
+
+\subsubsection*{Question 10 - (2 mark)}
+Define what is meant by a {\bf race-condition}. Why is the test \texttt{if(x != null)} 
+insufficient to prevent a segmentation fault from occurring on an attempted access to a structure through the pointer \texttt{x}?\\
+(\textit{Hint: you should assume that the pointer variable is correctly typed, that the structure was successfully initialised earlier in the program 
+and that there are other threads running in parallel.})
+
+\newpage
+\section*{Part B - The Alarm Clock (30 marks)}
+
+In this part, you are required to implement a simple functionality in Pintos and to answer the design document questions listed below.
+
+\subsection*{Coding the Alarm Clock in Pintos} 
+Reimplement \texttt{timer$\_$sleep()}, defined in '\texttt{devices/timer.c}’.\\ 
+
+\noindent Although a working implementation of \texttt{timer$\_$sleep()} is provided, it “busy waits,” that is, 
+it spins in a loop checking the current time and calling \texttt{thread$\_$yield()} until enough time has gone by. 
+You need to reimplement it to avoid busy waiting. 
+Further instructions and hints can be found in the Pintos manual.\\
+
+\noindent The marks for this question are awarded as follows:
+
+Passing the automated tests ({\bf 10 marks}). 
+
+Performance in the Code Review ({\bf 10 marks}). 
+
+Answering the design questions below ({\bf 10 marks}).
+
+\subsection*{Task 0 Design Questions}
+
+\subsubsection*{Data Structures}
+A1: ({\bf 2 marks}) Copy here the declaration of each new or changed `\texttt{struct}' or `\texttt{struct}' member, global or static variable, `\texttt{typedef}', or enumeration. Identify the purpose of each in 25 words or less.
+
+\subsubsection*{Algorithms}
+A2: ({\bf 2 marks}) Briefly describe what happens in a call to \texttt{timer$\_$sleep()}, including the actions performed by the timer interrupt handler on each timer tick. \\
+
+\noindent A3: ({\bf 2 marks}) What steps are taken to minimize the amount of time spent in the timer interrupt handler?
+
+\subsubsection*{Synchronization}
+A4: ({\bf 1 mark}) How are race conditions avoided when multiple threads call \texttt{timer$\_$sleep()} simultaneously? \\ 
+
+\noindent A5: ({\bf 1 mark}) How are race conditions avoided when a timer interrupt occurs during a call to \texttt{timer$\_$sleep()}?
+
+\subsubsection*{Rationale}
+A6: ({\bf 2 marks}) Why did you choose this design?  
+In what ways is it superior to another design you considered?
+
+\end{document}
